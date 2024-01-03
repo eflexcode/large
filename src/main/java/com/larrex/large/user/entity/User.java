@@ -1,10 +1,8 @@
 package com.larrex.large.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jdk.jfr.DataAmount;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -19,11 +17,16 @@ public class User {
     private Long id;
     private String name;
     private String email;
+    @JsonIgnore
+    private String password;
     private String bio;
     private String location;
     private String profileImageUrl;
     private String coverImageUrl;
-    private List<String> postCategory;
+    private List<String> interests;
+    private List<Long> bookmarks;
+    private List<Long> followers;
+    private List<Long> following;
 
 
     private Date createdAt;
