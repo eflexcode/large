@@ -1,9 +1,25 @@
 package com.larrex.large.user.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.larrex.large.exception.NotFoundExceptionHandler;
+import com.larrex.large.user.entity.User;
+import com.larrex.large.user.service.UserService;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@AllArgsConstructor
 public class UserController {
+
+    private final UserService userService;
+
+    @PostMapping("/create")
+    public User createUser(@RequestBody User user){
+       return userService.createUser(user);
+    }
+
+    @PostMapping("/bookmark/{userId}/{postId}")
+    public User addBookmark(@PathVariable(name = "userId") Long userId,@PathVariable(name = "postId") Long postId) throws NotFoundExceptionHandler {
+        return userService.addBookmark(userId, postId);
+    }
 }
