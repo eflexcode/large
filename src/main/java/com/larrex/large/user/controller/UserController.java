@@ -19,7 +19,13 @@ public class UserController {
     }
 
     @PostMapping("/bookmark/{userId}/{postId}")
-    public User addBookmark(@PathVariable(name = "userId") Long userId,@PathVariable(name = "postId") Long postId) throws NotFoundExceptionHandler {
+    public User addBookmark(@PathVariable(name = "userId") String userId,@PathVariable(name = "postId") String postId) throws NotFoundExceptionHandler {
         return userService.addBookmark(userId, postId);
     }
+    @DeleteMapping("/bookmark/{userId}/{postId}")
+    public User removeBookmark(@PathVariable(name = "userId") String userId,@PathVariable(name = "postId") String postId) throws NotFoundExceptionHandler {
+        return userService.removeBookmark(userId, postId);
+    }
+
+
 }

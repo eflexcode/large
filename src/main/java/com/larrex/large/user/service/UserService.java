@@ -10,19 +10,19 @@ public interface UserService {
 
     User createUser(User user);
 
-    User readUserById(Long id) throws NotFoundExceptionHandler;
+    User readUserById(String id) throws NotFoundExceptionHandler;
 
-    User updateUser(User user,Long userId) throws NotFoundExceptionHandler;
-    User updateUserInterestsAdd(Long userId,String keyword) throws NotFoundExceptionHandler;
-    User updateUserInterestsRemove(Long userId,Long listIndex) throws NotFoundExceptionHandler;
-    User addBookmark(Long userId,Long postId) throws NotFoundExceptionHandler;
-    User removeBookmark(Long userId,Long postId) throws NotFoundExceptionHandler;
-    User updateUserFollowing(Long userId,Long userToFollowId) throws NotFoundExceptionHandler;
-    User unfollow(Long userId,Long followingUserID) throws NotFoundExceptionHandler;
+    User updateUser(User user,String userId) throws NotFoundExceptionHandler;
+    User updateUserInterestsAdd(String userId,String keyword) throws NotFoundExceptionHandler;
+    User updateUserInterestsRemove(String userId,Long listIndex) throws NotFoundExceptionHandler;
+    User addBookmark(String userId,String postId) throws NotFoundExceptionHandler;
+    User removeBookmark(String userId,String postId) throws NotFoundExceptionHandler;
+    User updateUserFollowing(String userId,String userToFollowId) throws NotFoundExceptionHandler;
+    User unfollow(String userId,String followingUserID) throws NotFoundExceptionHandler;
 //    User updateUserFollowers(User user,Long userId) throws NotFoundExceptionHandler;
-    User updateUserArticleID(Long userId,Long myArticleId) throws NotFoundExceptionHandler;
+    User updateUserArticleID(String userId,String myArticleId) throws NotFoundExceptionHandler;
 
-    void deleteUser(Long id);
+    void deleteUser(String id);
 
 
 }

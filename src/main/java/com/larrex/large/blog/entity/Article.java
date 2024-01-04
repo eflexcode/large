@@ -13,8 +13,8 @@ import java.util.List;
 public class Article {
 
     @Id
-    private Long id;
-    private Long authorId;
+    private String id;
+    private String authorId;
 
     private String title;
     private String content;

@@ -12,9 +12,9 @@ import java.util.Date;
 public class Comment {
 
     @Id
-    private Long id;
-    private Long articleId;
-    private Long authorId; // owner of comment
+    private String id;
+    private String articleId;
+    private String authorId; // owner of comment
     private String comment;
 
     private Date createdAt;

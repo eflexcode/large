@@ -13,7 +13,7 @@ import java.util.List;
 public class User {
 
     @Id
-    private Long id;
+    private String id;
     private String name;
     private String email;
     @JsonIgnore
@@ -23,10 +23,10 @@ public class User {
     private String profileImageUrl;
     private String coverImageUrl;
     private List<String> interests;
-    private List<Long> bookmarks;
-    private List<Long> followers;
-    private List<Long> following;
-    private List<Long> articleIDs;
+    private List<String> bookmarks;
+    private List<String> followers;
+    private List<String> following;
+    private List<String> articleIDs;
 
 
     private Date createdAt;
