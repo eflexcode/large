@@ -27,6 +27,7 @@ public class User {
     private List<Long> bookmarks;
     private List<Long> followers;
     private List<Long> following;
+    private List<Long> articleIDs;
 
 
     private Date createdAt;
