@@ -45,19 +45,36 @@ public class UserServiceImpl implements UserService {
         databaseUser.setLocation(sentUser.getLocation() != null ? sentUser.getLocation() : databaseUser.getLocation());
         databaseUser.setPassword(sentUser.getPassword() != null ? sentUser.getPassword() : databaseUser.getPassword());
 
-
         databaseUser.setUpdatedAt(new Date());
         return userRepository.save(databaseUser);
     }
 
     @Override
     public User updateUserInterestsAdd(String userId, String keyword) throws NotFoundExceptionHandler {
-        return null;
+
+        User databaseUser = readUserById(userId);
+
+        if (databaseUser.getInterests() != null) {
+            databaseUser.getInterests().add(keyword);
+        } else {
+            ArrayList<String> interests = new ArrayList<>();
+            interests.add(keyword);
+            databaseUser.setInterests(interests);
+        }
+
+        return userRepository.save(databaseUser);
     }
 
     @Override
-    public User updateUserInterestsRemove(String userId, Long listIndex) throws NotFoundExceptionHandler {
-        return null;
+    public User updateUserInterestsRemove(String userId, String keyword) throws NotFoundExceptionHandler {
+        User databaseUser = readUserById(userId);
+        if (databaseUser.getInterests() != null) {
+            databaseUser.getInterests().remove(keyword);
+        } else {
+            throw new NotFoundExceptionHandler("User has no bookmarks");
+        }
+
+        return userRepository.save(databaseUser);
     }
 
     @Override
@@ -89,7 +106,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserFollowing(String userId, String userToFollowId) throws NotFoundExceptionHandler {
+    public User follow(String userId, String userToFollowId) throws NotFoundExceptionHandler {
         return null;
     }
 
@@ -99,9 +116,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserArticleID(String userId, String myArticleId) throws NotFoundExceptionHandler {
-        return null;
+    public User addUserArticleID(String userId, String myArticleId) throws NotFoundExceptionHandler {
+
+        User databaseUser = readUserById(userId);
+
+        if (databaseUser.getArticleIDs() != null) {
+            databaseUser.getInterests().add(myArticleId);
+        } else {
+            ArrayList<String> myArticle = new ArrayList<>();
+            myArticle.add(myArticleId);
+            databaseUser.setBookmarks(myArticle);
+        }
+
+        return userRepository.save(databaseUser);
     }
+
+    @Override
+    public User removeUserArticleID(String userId, String myArticleId) throws NotFoundExceptionHandler {
+        User databaseUser = readUserById(userId);
+        if (databaseUser.getArticleIDs() != null) {
+            databaseUser.getInterests().remove(myArticleId);
+        } else {
+            throw new NotFoundExceptionHandler("User has no bookmarks");
+        }
+
+        return userRepository.save(databaseUser);
+    }
+
 
     @Override
     public void deleteUser(String id) {

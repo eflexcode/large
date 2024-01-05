@@ -14,13 +14,14 @@ public interface UserService {
 
     User updateUser(User user,String userId) throws NotFoundExceptionHandler;
     User updateUserInterestsAdd(String userId,String keyword) throws NotFoundExceptionHandler;
-    User updateUserInterestsRemove(String userId,Long listIndex) throws NotFoundExceptionHandler;
+    User updateUserInterestsRemove(String userId,String keyword) throws NotFoundExceptionHandler;
     User addBookmark(String userId,String postId) throws NotFoundExceptionHandler;
     User removeBookmark(String userId,String postId) throws NotFoundExceptionHandler;
-    User updateUserFollowing(String userId,String userToFollowId) throws NotFoundExceptionHandler;
+    User follow(String userId,String userToFollowId) throws NotFoundExceptionHandler;
     User unfollow(String userId,String followingUserID) throws NotFoundExceptionHandler;
 //    User updateUserFollowers(User user,Long userId) throws NotFoundExceptionHandler;
-    User updateUserArticleID(String userId,String myArticleId) throws NotFoundExceptionHandler;
+    User addUserArticleID(String userId,String myArticleId) throws NotFoundExceptionHandler;
+    User removeUserArticleID(String userId,String myArticleId) throws NotFoundExceptionHandler;
 
     void deleteUser(String id);
 

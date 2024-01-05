@@ -18,6 +18,11 @@ public class UserController {
        return userService.createUser(user);
     }
 
+    @PostMapping("/update/{userId}")
+    public User updateUser( @PathVariable("userId") String userId,@RequestBody User sentUser) throws NotFoundExceptionHandler {
+        return userService.updateUser(sentUser,userId);
+    }
+
     @PostMapping("/bookmark/{userId}/{postId}")
     public User addBookmark(@PathVariable(name = "userId") String userId,@PathVariable(name = "postId") String postId) throws NotFoundExceptionHandler {
         return userService.addBookmark(userId, postId);
@@ -26,6 +31,8 @@ public class UserController {
     public User removeBookmark(@PathVariable(name = "userId") String userId,@PathVariable(name = "postId") String postId) throws NotFoundExceptionHandler {
         return userService.removeBookmark(userId, postId);
     }
-
-
+    @DeleteMapping("/delete/{userId}")
+    public void deleteUser(@PathVariable(name = "userId")String userId) throws NotFoundExceptionHandler {
+        userService.readUserById(userId);
+    }
 }
