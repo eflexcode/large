@@ -107,12 +107,46 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User follow(String userId, String userToFollowId) throws NotFoundExceptionHandler {
-        return null;
+        User me = readUserById(userId);
+        User toFollow = readUserById(userToFollowId);
+
+        if (me.getFollowing() != null) {
+            me.getFollowing().add(userToFollowId);
+        } else {
+            ArrayList<String> followers = new ArrayList<>();
+            followers.add(userToFollowId);
+            me.setFollowing(followers);
+        }
+
+
+        if (toFollow.getFollowing() != null) {
+            toFollow.getFollowing().add(userId);
+        } else {
+            ArrayList<String> followers = new ArrayList<>();
+            followers.add(userId);
+            toFollow.setFollowing(followers);
+        }
+        userRepository.save(toFollow);
+        return userRepository.save(me);
     }
 
     @Override
     public User unfollow(String userId, String followingUserID) throws NotFoundExceptionHandler {
-        return null;
+
+        User me = readUserById(userId);
+        User toUnfollow = readUserById(followingUserID);
+        if (me.getFollowing() != null) {
+            me.getFollowing().remove(followingUserID);
+        } else {
+            throw new NotFoundExceptionHandler("User is not following u");
+        }
+        if (toUnfollow.getFollowers() != null) {
+            toUnfollow.getFollowers().remove(userId);
+        } else {
+            throw new NotFoundExceptionHandler("User is not following u");
+        }
+        userRepository.save(toUnfollow);
+        return userRepository.save(me);
     }
 
     @Override
@@ -137,7 +171,7 @@ public class UserServiceImpl implements UserService {
         if (databaseUser.getArticleIDs() != null) {
             databaseUser.getInterests().remove(myArticleId);
         } else {
-            throw new NotFoundExceptionHandler("User has no bookmarks");
+            throw new NotFoundExceptionHandler("Article does not exist");
         }
 
         return userRepository.save(databaseUser);
