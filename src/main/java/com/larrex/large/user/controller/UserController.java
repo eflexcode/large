@@ -5,7 +5,13 @@ import com.larrex.large.user.entity.User;
 import com.larrex.large.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.mongodb.repository.Update;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/user")
@@ -61,10 +67,18 @@ public class UserController {
 
     @PutMapping("/removeMyArticle/{userId}/{myArticleId}")
     User removeUserArticleID(@PathVariable(name = "userId") String userId,@PathVariable(name = "myArticleId") String myArticleId) throws NotFoundExceptionHandler {
-       return userService.addUserArticleID(userId, myArticleId);
+       return userService.removeUserArticleID(userId, myArticleId);
     }
 
+    @PostMapping("/upload")
+    public User uploadImage(@RequestParam("file") MultipartFile multipartFile, @RequestParam(name = "userId") String id, @RequestParam(name = "imagePosition") Integer imagePosition) throws IOException, NotFoundExceptionHandler {
+        return userService.uploadImage(multipartFile, id,imagePosition);
+    }
 
+    @GetMapping("/media/{filename}")
+    public ResponseEntity<?> downloadImage(@PathVariable(name = "filename") String filename) throws IOException {
+        return  ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf(MediaType.IMAGE_PNG_VALUE)).body( userService.downloadImage(filename));
+    }
     @DeleteMapping("/delete/{userId}")
     public void deleteUser(@PathVariable(name = "userId") String userId) throws NotFoundExceptionHandler {
         userService.deleteUser(userId);

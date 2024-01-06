@@ -2,7 +2,9 @@ package com.larrex.large.user.service;
 
 import com.larrex.large.exception.NotFoundExceptionHandler;
 import com.larrex.large.user.entity.User;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
@@ -22,7 +24,9 @@ public interface UserService {
 //    User updateUserFollowers(User user,Long userId) throws NotFoundExceptionHandler;
     User addUserArticleID(String userId,String myArticleId) throws NotFoundExceptionHandler;
     User removeUserArticleID(String userId,String myArticleId) throws NotFoundExceptionHandler;
+    User uploadImage(MultipartFile multipartFile, String userId,Integer imagePosition ) throws IOException, NotFoundExceptionHandler;
 
+    byte[] downloadImage(String filename);
     void deleteUser(String id);
 
 

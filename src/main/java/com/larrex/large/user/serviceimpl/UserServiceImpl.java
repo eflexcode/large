@@ -1,5 +1,6 @@
 package com.larrex.large.user.serviceimpl;
 
+import com.larrex.large.Util;
 import com.larrex.large.exception.NotFoundExceptionHandler;
 import com.larrex.large.user.entity.User;
 import com.larrex.large.user.repository.UserRepository;
@@ -7,8 +8,10 @@ import com.larrex.large.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -175,6 +178,26 @@ public class UserServiceImpl implements UserService {
         }
 
         return userRepository.save(databaseUser);
+    }
+
+    @Override
+    public User uploadImage(MultipartFile multipartFile, String userId, Integer imagePosition) throws IOException, NotFoundExceptionHandler {
+
+        String imageName =  Util.createFile(multipartFile);
+
+        User user = new User();
+        if (imagePosition == 1){
+            user.setProfileImageUrl(Util.downloadUniversalPath+imageName);
+        }else if (imagePosition == 2){
+            user.setCoverImageUrl(Util.downloadUniversalPath+imageName);
+        }
+
+        return updateUser(user,userId);
+    }
+
+    @Override
+    public byte[] downloadImage(String filename) {
+        return Util.downloadImage(filename);
     }
 
 
