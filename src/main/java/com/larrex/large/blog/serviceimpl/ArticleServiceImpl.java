@@ -9,7 +9,9 @@ import com.larrex.large.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,15 +29,18 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article update(Article article, String articleId) throws NotFoundExceptionHandler {
+//        private List<String> tags;
+
 
         Article databaseArticle = getArticleById(articleId);
-        databaseArticle.s(sentUser.getBio() != null ? sentUser.getBio() : databaseUser.getBio());
-        databaseArticle.setEmail(sentUser.getEmail() != null ? sentUser.getEmail() : databaseUser.getEmail());
-        databaseArticle.setName(sentUser.getName() != null ? sentUser.getName() : databaseUser.getName());
+        databaseArticle.setAuthorId(article.getAuthorId() != null ? article.getAuthorId() : databaseArticle.getAuthorId());
+        databaseArticle.setTitle(article.getTitle() != null ? article.getCoverImageUrl() : databaseArticle.getTitle());
+        databaseArticle.setSummary(article.getSummary() != null ? article.getSummary() : databaseArticle.getSummary());
         databaseArticle.setCoverImageUrl(article.getCoverImageUrl() != null ? article.getCoverImageUrl() : databaseArticle.getCoverImageUrl());
-        databaseArticle.setProfileImageUrl(sentUser.getProfileImageUrl() != null ? sentUser.getProfileImageUrl() : databaseUser.getProfileImageUrl());
-        databaseArticle.setLocation(sentUser.getLocation() != null ? sentUser.getLocation() : databaseUser.getLocation());
-        databaseArticle.setPassword(sentUser.getPassword() != null ? sentUser.getPassword() : databaseUser.getPassword());
+        databaseArticle.setCommentCount(article.getCommentCount() != null ? article.getCommentCount() : databaseArticle.getCommentCount());
+        databaseArticle.setPrivateArticle(article.getPrivateArticle() != null ? article.getPrivateArticle() : databaseArticle.getPrivateArticle());
+        databaseArticle.setUpdatedAt(new Date());
+
 
         databaseArticle.setUpdatedAt(new Date());
         return articleRepository.save(databaseArticle);
@@ -51,6 +56,33 @@ public class ArticleServiceImpl implements ArticleService {
     public Article getArticleByTile(String phrase) throws NotFoundExceptionHandler {
         return articleRepository.findByTitleContaining(phrase).orElseThrow(() -> new NotFoundExceptionHandler("No article found with phrase: " + phrase));
 
+    }
+
+    @Override
+    public Article addTag(String articleId, String tag) throws NotFoundExceptionHandler {
+        Article databaseArticle = getArticleById(articleId);
+
+        if (databaseArticle.getTags() != null) {
+            databaseArticle.getTags().add(tag);
+        } else {
+            ArrayList<String> tags = new ArrayList<>();
+            tags.add(tag);
+            databaseArticle.setTags(tags);
+        }
+
+        return articleRepository.save(databaseArticle);
+    }
+
+    @Override
+    public Article removeTag(String articleId, String tag) throws NotFoundExceptionHandler {
+        Article databaseArticle = getArticleById(articleId);
+        if (databaseArticle.getTags() != null) {
+            databaseArticle.getTags().remove(tag);
+        } else {
+            throw new NotFoundExceptionHandler("this article has no tags");
+        }
+
+        return articleRepository.save(databaseArticle);
     }
 
     @Override

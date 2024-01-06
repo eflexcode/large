@@ -23,8 +23,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-
-
         Date date = new Date();
         user.setCreatedAt(date);
         user.setUpdatedAt(date);
