@@ -86,6 +86,66 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public Article like(String articleId, String userId) throws NotFoundExceptionHandler {
+        Article databaseArticle = getArticleById(articleId);
+
+        if (databaseArticle.getLikeCount() != null && databaseArticle.getLikeUserIds() != null) {
+            databaseArticle.setLikeCount(databaseArticle.getLikeCount()+1);
+
+            databaseArticle.getLikeUserIds().add(userId);
+        } else {
+
+            databaseArticle.setLikeCount(1L);
+            List<String> userIds = new ArrayList<>();
+            userIds.add(userId);
+            databaseArticle.setLikeUserIds(userIds);
+        }
+
+       return articleRepository.save(databaseArticle);
+    }
+
+    @Override
+    public Article unlike(String articleId, String userId) throws NotFoundExceptionHandler {
+        Article databaseArticle = getArticleById(articleId);
+
+        if (databaseArticle.getLikeCount() != null && databaseArticle.getLikeUserIds() != null) {
+            databaseArticle.setLikeCount(databaseArticle.getLikeCount()-1);
+
+        } else {
+            throw new NotFoundExceptionHandler("this article has no likes");
+
+        }
+
+        return articleRepository.save(databaseArticle);
+    }
+
+    @Override
+    public void addCommentCount(String articleId,String commentId) throws NotFoundExceptionHandler {
+        Article databaseArticle = getArticleById(articleId);
+
+        if (databaseArticle.getCommentCount() != null) {
+            databaseArticle.setCommentCount(databaseArticle.getCommentCount()+1);
+        } else {
+
+            databaseArticle.setCommentCount(1L);
+        }
+
+         articleRepository.save(databaseArticle);
+    }
+
+    @Override
+    public void removeCommentCount(String articleId,String commentId) throws NotFoundExceptionHandler {
+        Article databaseArticle = getArticleById(articleId);
+        if (databaseArticle.getCommentCount() != null) {
+            databaseArticle.setCommentCount(databaseArticle.getCommentCount()-1);
+        } else {
+            throw new NotFoundExceptionHandler("this article has no comments");
+        }
+
+        articleRepository.save(databaseArticle);
+    }
+
+    @Override
     public void deleteArticle(String articleId) {
         articleRepository.deleteById(articleId);
     }

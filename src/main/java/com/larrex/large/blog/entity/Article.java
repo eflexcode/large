@@ -23,6 +23,7 @@ public class Article {
     private List<String> tags;
     private Long commentCount;
     private Long likeCount;
+    private List<String> likeUserIds;
     private Boolean privateArticle;
 
     private Date createdAt;
