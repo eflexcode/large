@@ -7,13 +7,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 
 @Data
-@Collection
+@Document
 public class Notification {
 
     @Id
     private String id;
     private String articleId;
-    private String commentId;
+    private String authorId;
+    private String commenterId;
     private String message;
     private Date createdAt;
     private Boolean isRead = false;

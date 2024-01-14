@@ -22,6 +22,7 @@ public class Article {
     private String coverImageUrl;
     private List<String> tags;
     private Long commentCount;
+    private Long likeCount;
     private Boolean privateArticle;
 
     private Date createdAt;

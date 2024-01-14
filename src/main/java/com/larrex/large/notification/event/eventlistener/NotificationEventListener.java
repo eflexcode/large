@@ -7,6 +7,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 public class NotificationEventListener implements ApplicationListener<NotificationEvent> {
     @Override
     public void onApplicationEvent(NotificationEvent event) {
-        MongoTemplate mongoTemplate = new MongoTemplate()
+//        MongoTemplate mongoTemplate = new MongoTemplate();
     }
 }
