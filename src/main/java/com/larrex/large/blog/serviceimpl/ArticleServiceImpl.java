@@ -100,7 +100,7 @@ public class ArticleServiceImpl implements ArticleService {
             userIds.add(userId);
             databaseArticle.setLikeUserIds(userIds);
         }
-
+// send notification
        return articleRepository.save(databaseArticle);
     }
 
@@ -131,6 +131,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
          articleRepository.save(databaseArticle);
+
     }
 
     @Override

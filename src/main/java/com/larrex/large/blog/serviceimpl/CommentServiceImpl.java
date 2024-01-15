@@ -22,6 +22,7 @@ public class CommentServiceImpl implements CommentService {
         Date date = new Date();
         comment.setCreatedAt(date);
         comment.setUpdatedAt(date);
+        //send notification
         return commentRepository.save(comment);
     }
 
