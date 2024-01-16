@@ -4,6 +4,8 @@ import com.larrex.large.blog.entity.Article;
 import com.larrex.large.blog.repository.ArticleRepository;
 import com.larrex.large.blog.service.ArticleService;
 import com.larrex.large.exception.NotFoundExceptionHandler;
+import com.larrex.large.notification.entity.Notification;
+import com.larrex.large.notification.service.NotificationService;
 import com.larrex.large.user.entity.User;
 import com.larrex.large.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final NotificationService notificationService;
 
     @Override
     public Article createBlog(Article article) {
@@ -93,6 +96,7 @@ public class ArticleServiceImpl implements ArticleService {
             databaseArticle.setLikeCount(databaseArticle.getLikeCount()+1);
 
             databaseArticle.getLikeUserIds().add(userId);
+
         } else {
 
             databaseArticle.setLikeCount(1L);
@@ -100,7 +104,18 @@ public class ArticleServiceImpl implements ArticleService {
             userIds.add(userId);
             databaseArticle.setLikeUserIds(userIds);
         }
-// send notification
+
+        // send notification
+
+        Article article =  articleRepository.save(databaseArticle);
+        Notification notification = new Notification();
+        notification.setMessage("New Like on your article by "+ article.getAuthorId());
+        notification.setIsRead(false);
+        notification.setArticleId(articleId);
+        notification.setAuthorId(userId);
+        notification.setCreatedAt(new Date());
+        notificationService.createNotification(notification);
+
        return articleRepository.save(databaseArticle);
     }
 

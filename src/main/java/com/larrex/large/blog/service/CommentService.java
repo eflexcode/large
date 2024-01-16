@@ -5,7 +5,7 @@ import com.larrex.large.blog.entity.Comment;
 import com.larrex.large.exception.NotFoundExceptionHandler;
 
 public interface CommentService {
-    Comment createComment(Comment comment);
+    Comment createComment(Comment comment) throws NotFoundExceptionHandler;
     Comment update(Comment comment,String commentId) throws NotFoundExceptionHandler;
     Comment getCommentById(String commentId) throws NotFoundExceptionHandler;
     void deleteComment(String commentId);
